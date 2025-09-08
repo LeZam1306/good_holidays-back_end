@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/LeZam1306/back_end#readme",
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.1",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
@@ -35,7 +36,9 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0"
   }
 }
