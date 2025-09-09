@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import type { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import User from '../models/user.ts';
 import { ResponseObj } from '../src/lib/responseBuilder.ts';
 
@@ -43,12 +44,23 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
           .compare(req.body.password, userDBFind.password)
           .then((valid) => {
             if (valid) {
-              res.status(200).json(
-                ResponseObj.doResponse(false, 'Authentification success', {
-                  email: userDBFind.email,
-                  token: 'TOKEN',
-                }),
-              );
+              const token = jwt.sign({ userId: userDBFind._id }, 'SECRET', {
+                expiresIn: '24h',
+              });
+              res
+                .status(200)
+                .cookie('token', token, {
+                  httpOnly: true,
+                  secure: false,
+                  sameSite: 'lax',
+                  maxAge: 60 * 60 * 24 * 1000,
+                })
+                .json(
+                  ResponseObj.doResponse(false, 'Authentification success', {
+                    email: userDBFind.email,
+                    id: userDBFind._id,
+                  }),
+                );
             } else
               res
                 .status(400)

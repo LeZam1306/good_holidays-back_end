@@ -1,4 +1,5 @@
-import type { Application, Request, Response } from 'express';
+import cors from 'cors';
+import type { Application } from 'express';
 import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from '../routes/auth.ts';
@@ -13,18 +14,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use((req: Request, res: Response, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization',
-  );
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-  );
-  next();
-});
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }),
+);
 
 app.use('/api/auth', authRoutes);
 
