@@ -15,7 +15,6 @@ export const signup = async (
       ...req.body,
       password: hash,
     });
-
     try {
       await user.save();
       next();

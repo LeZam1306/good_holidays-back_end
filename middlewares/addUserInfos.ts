@@ -6,20 +6,17 @@ import { ResponseObj } from '../src/lib/responseBuilder.ts';
 const addUserInfo = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userDBFind = await User.findOne({ email: req.body.email });
+
     if (userDBFind) {
       const userId = userDBFind._id;
-      const dateOfToday = new Date();
-      const creationDate = new Date(
-        dateOfToday.getFullYear(),
-        dateOfToday.getMonth(),
-        dateOfToday.getDate(),
-      );
-      const pseudo = `guess_${dateOfToday.getTime()}${Math.floor(Math.random() * (999999 - 0)) + 0}`;
+      const date = new Date();
+      const pseudo = `guess_${date.getTime()}${Math.floor(Math.random() * (999999 - 0)) + 0}`;
 
       const userInfo = new UserInfo({
         _id: userId,
         pseudo: pseudo,
-        creationDate: creationDate,
+        creationDate: date,
+        verified: false,
       });
 
       try {
@@ -29,9 +26,7 @@ const addUserInfo = async (req: Request, res: Response, next: NextFunction) => {
           .json(ResponseObj.doResponse(false, 'New user registered', {}));
       } catch {
         await userDBFind.deleteOne();
-        res
-          .status(400)
-          .json(ResponseObj.doResponse(true, 'Signup Failed ?', {}));
+        res.status(400).json(ResponseObj.doResponse(true, 'Signup Failed', {}));
       }
     } else {
       res.status(400).json(ResponseObj.doResponse(true, 'Signup Failed', {}));

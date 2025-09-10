@@ -1,10 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 const userInfoSchema = new mongoose.Schema(
   {
-    _id: { type: String, require: true },
+    _id: { type: Types.ObjectId, required: true },
     pseudo: { type: String, required: true, unique: true },
     creationDate: { type: Date, required: true },
+    verified: { type: Boolean, required: true },
   },
   { collection: 'userInfos' },
 );
