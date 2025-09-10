@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import type { Application } from 'express';
 import express from 'express';
@@ -20,6 +21,7 @@ const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   cors({

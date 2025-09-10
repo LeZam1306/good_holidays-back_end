@@ -1,10 +1,8 @@
-import type { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Response } from 'express';
 import Jwt from 'jsonwebtoken';
 import { ResponseObj } from '../src/lib/responseBuilder.ts';
+import type { AuthRequest } from '../src/types/authRequest.interface.ts';
 
-interface AuthRequest extends Request {
-  auth?: { userId: string };
-}
 type DecodedToken = { userId: string };
 
 const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
