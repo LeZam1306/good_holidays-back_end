@@ -1,9 +1,9 @@
 import express from 'express';
-import { getUserInfos } from '../controllers/getUserInfos.ts';
+import { getEvents } from '../controllers/event/getEvents.ts';
 import auth from '../middlewares/auth.ts';
 
 const router = express.Router();
 
-router.get('/', auth, getUserInfos);
+router.get('/', auth, getEvents);
 
 export default router;
