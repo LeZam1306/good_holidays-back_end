@@ -7,10 +7,11 @@ type DecodedToken = { userId: string };
 
 const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
-  !token &&
-    res
+  if (!token) {
+    return res
       .status(400)
       .json(ResponseObj.doResponse(true, 'User not authentified', {}));
+  }
 
   try {
     const decodedToken = Jwt.verify(token, 'SECRET') as DecodedToken;
