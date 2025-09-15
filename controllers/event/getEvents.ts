@@ -10,7 +10,6 @@ export const getEvents = async (
   next: NextFunction,
 ) => {
   const userIdObj = new Types.ObjectId(req.auth?.userId);
-  console.log(userIdObj);
   try {
     const events = await Event.find({ participants: [userIdObj] }).select(
       '-participants',
@@ -23,7 +22,7 @@ export const getEvents = async (
         );
     } else {
       res
-        .status(400)
+        .status(404)
         .json(ResponseObj.doResponse(true, 'No event(s) found', {}));
     }
   } catch {
