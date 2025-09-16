@@ -10,7 +10,7 @@ export const postNewPseudo = async (
 ) => {
   const userId = req.auth?.userId;
   try {
-    const result = await UserInfo.updateOne(
+    await UserInfo.updateOne(
       { _id: userId },
       { $set: { pseudo: req.body.pseudo } },
     );
