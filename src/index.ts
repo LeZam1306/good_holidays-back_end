@@ -10,9 +10,9 @@ import userRoutes from '../routes/user.ts';
 const connectDB = async () => {
   try {
     await mongoose.connect('mongodb://127.0.0.1:27017/goodholidays');
-    console.log('Connexion à goodholidays DB réussi');
+    console.log('Connection to goodholidays DB successful');
   } catch {
-    console.log('Connexion à échoué');
+    console.log('Connection failed');
   }
 };
 

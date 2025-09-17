@@ -27,7 +27,7 @@ export const login = async (
             .cookie('token', token, {
               httpOnly: true,
               secure: false,
-              sameSite: 'lax', // Lax fonctionne pour localhost
+              sameSite: 'lax', // Lax works for localhost
               maxAge: 60 * 60 * 24 * 1000,
             })
             .json(

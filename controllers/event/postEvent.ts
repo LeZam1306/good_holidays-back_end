@@ -16,7 +16,7 @@ export const postEvent = async (
     if (!userId) {
       return res
         .status(401)
-        .json(ResponseObj.doResponse(true, 'Utilisateur non authentifié', {}));
+        .json(ResponseObj.doResponse(true, 'User not authenticated', {}));
     }
 
     // Get data from request body
@@ -30,7 +30,7 @@ export const postEvent = async (
         .json(
           ResponseObj.doResponse(
             true,
-            'Champs requis manquants: eventName, location, eventDate',
+            'Required fields missing: eventName, location, eventDate',
             {},
           ),
         );
@@ -41,13 +41,7 @@ export const postEvent = async (
     if (!userInfo) {
       return res
         .status(404)
-        .json(
-          ResponseObj.doResponse(
-            true,
-            'Informations utilisateur non trouvées',
-            {},
-          ),
-        );
+        .json(ResponseObj.doResponse(true, 'User information not found', {}));
     }
 
     // Create Event
@@ -74,12 +68,9 @@ export const postEvent = async (
       await newEventInfo.save();
 
       // Success - return data
-      return res.status(201).json(
-        ResponseObj.doResponse(false, 'Événement créé avec succès', {
-          event: savedEvent,
-          eventInfo: newEventInfo,
-        }),
-      );
+      return res
+        .status(201)
+        .json(ResponseObj.doResponse(false, 'Event created successfully', {}));
     } catch (eventInfoError) {
       // If EventInfo fails, delete the created Event
       await Event.findByIdAndDelete(savedEvent._id);
