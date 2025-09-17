@@ -1,7 +1,7 @@
 import type { NextFunction, Response } from 'express';
-import UserInfo from '../models/userInfo.ts';
-import { ResponseObj } from '../src/lib/responseBuilder.ts';
-import type { AuthRequest } from '../src/types/authRequest.interface.ts';
+import UserInfo from '../../models/userInfo.ts';
+import { ResponseObj } from '../../src/lib/responseBuilder.ts';
+import type { AuthRequest } from '../../src/types/authRequest.interface.ts';
 
 export const postNewPseudo = async (
   req: AuthRequest,

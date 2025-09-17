@@ -1,7 +1,7 @@
 import type { NextFunction, Response } from 'express';
 import type { AuthRequest } from 'src/types/authRequest.interface.ts';
-import UserInfo from '../models/userInfo.ts';
-import { ResponseObj } from '../src/lib/responseBuilder.ts';
+import UserInfo from '../../models/userInfo.ts';
+import { ResponseObj } from '../../src/lib/responseBuilder.ts';
 
 export const getUserInfos = async (
   req: AuthRequest,
