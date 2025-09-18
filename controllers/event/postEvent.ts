@@ -49,7 +49,7 @@ export const postEvent = async (
       eventName,
       date: new Date(eventDate),
       status: 'soon',
-      promotor: userInfo.pseudo,
+      promotor: [userInfo.pseudo, userInfo._id],
       participants: [userId], // Array containing only the creator's ID
     });
 
