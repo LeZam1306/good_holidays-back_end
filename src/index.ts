@@ -5,6 +5,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from '../routes/auth.ts';
 import eventRoutes from '../routes/event.ts';
+import invitationRoutes from '../routes/invitation.ts';
 import userRoutes from '../routes/user.ts';
 
 const connectDB = async () => {
@@ -34,6 +35,7 @@ app.use(
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/event', eventRoutes);
+app.use('/api/invitation', invitationRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

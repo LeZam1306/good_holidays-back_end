@@ -1,6 +1,6 @@
 import type { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
-import type { AuthRequest } from 'src/types/authRequest.interface';
+import type { AuthRequest } from 'src/types/authRequest.interface.ts';
 import Event from '../../models/event.ts';
 import { ResponseObj } from '../../src/lib/responseBuilder.ts';
 

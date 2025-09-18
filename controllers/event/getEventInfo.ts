@@ -1,8 +1,9 @@
 import type { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
-import type { AuthRequest } from 'src/types/authRequest.interface';
+import type { AuthRequest } from 'src/types/authRequest.interface.ts';
 import Event from '../../models/event.ts';
 import EventInfo from '../../models/eventInfo.ts';
+import UserInfo from '../../models/userInfo.ts';
 import { ResponseObj } from '../../src/lib/responseBuilder.ts';
 
 export const getEventInfo = async (
@@ -47,9 +48,18 @@ export const getEventInfo = async (
           ),
         );
     }
+    // Get participant pseudo
+    const idParticipants = event.participants;
+
+    const participantsObj = await UserInfo.find({
+      _id: { $in: idParticipants },
+    }).select('pseudo -_id');
+    const participants = participantsObj.map(
+      (participant) => participant.pseudo,
+    );
 
     // Get the eventInfo for this event
-    const eventInfo = await EventInfo.findById(eventIdObj);
+    const eventInfo = await EventInfo.findById(eventIdObj).lean();
 
     if (!eventInfo) {
       return res
@@ -57,9 +67,12 @@ export const getEventInfo = async (
         .json(ResponseObj.doResponse(true, 'Event info not found', {}));
     }
 
-    res
-      .status(200)
-      .json(ResponseObj.doResponse(false, 'Event info found', eventInfo));
+    res.status(200).json(
+      ResponseObj.doResponse(false, 'Event info found', {
+        ...eventInfo,
+        participants: participants,
+      }),
+    );
   } catch (error) {
     res.status(500).json(ResponseObj.doResponse(true, 'Server error', {}));
   }
