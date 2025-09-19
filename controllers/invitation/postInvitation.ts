@@ -46,7 +46,7 @@ export const postInvitation = async (
     const status: InvitationStatus = 'PENDING';
 
     //Verify if the invitation is already sent
-    const verifyExistenceInvitation = await Invitation.findOne({
+    const verifyExistenceInvitation = await Invitation.exists({
       eventId: eventId,
       invitedId: invitedId,
     });
