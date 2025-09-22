@@ -11,7 +11,7 @@ export const getEvents = async (
 ) => {
   const userIdObj = new Types.ObjectId(req.auth?.userId);
   try {
-    const events = await Event.find({ participants: [userIdObj] }).select(
+    const events = await Event.find({ participants: userIdObj }).select(
       '-participants',
     );
     if (events) {

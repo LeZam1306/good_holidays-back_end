@@ -33,7 +33,7 @@ export const getPendingInvitations = async (
               $project: {
                 eventName: 1,
                 date: 1,
-                promotor: 1,
+                promotor: { $arrayElemAt: ['$promotor', 0] }, // Only first element
               },
             },
           ],
@@ -56,20 +56,33 @@ export const getPendingInvitations = async (
           ],
         },
       },
+      // Unwind the event array to get a single object
+      {
+        $unwind: {
+          path: '$event',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      // Unwind the eventInfo array to get a single object
+      {
+        $unwind: {
+          path: '$eventInfo',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
       // Reshape the output to match the expected format
       {
         $project: {
-          invitationId: '$_id',
           event: {
-            id: '$eventId',
-            eventName: { $arrayElemAt: ['$event.eventName', 0] },
-            date: { $arrayElemAt: ['$event.date', 0] },
-            promotor: { $arrayElemAt: ['$event.promotor', 0] },
+            _id: { $toString: '$eventId' }, // Convert ObjectId to string and use _id instead of id
+            eventName: '$event.eventName',
+            date: '$event.date',
+            promotor: '$event.promotor',
             description: {
-              $ifNull: [{ $arrayElemAt: ['$eventInfo.description', 0] }, null],
+              $ifNull: ['$eventInfo.description', ''],
             },
             location: {
-              $ifNull: [{ $arrayElemAt: ['$eventInfo.location', 0] }, null],
+              $ifNull: ['$eventInfo.location', ''],
             },
           },
         },
