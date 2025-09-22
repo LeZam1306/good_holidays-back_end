@@ -4,7 +4,7 @@ import type { AuthRequest } from 'src/types/authRequest.interface.ts';
 import Invitation from '../../models/invitation.ts';
 import { ResponseObj } from '../../src/lib/responseBuilder.ts';
 
-export const getNumberInvitation = async (
+export const getInvitationNumber = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction,

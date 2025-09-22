@@ -1,5 +1,5 @@
 import express from 'express';
-import { getNumberInvitation } from '../controllers/invitation/getNumberInvitation.ts';
+import { getInvitationNumber } from '../controllers/invitation/getInvitationNumber.ts';
 import { postInvitation } from '../controllers/invitation/postInvitation.ts';
 import auth from '../middlewares/auth.ts';
 import { pseudoToIdObj } from '../middlewares/pseudoToIdObj.ts';
@@ -7,6 +7,6 @@ import { pseudoToIdObj } from '../middlewares/pseudoToIdObj.ts';
 const router = express.Router();
 
 router.post('/', auth, pseudoToIdObj, postInvitation); //{eventId: string, pseudo: string}
-router.get('/count', auth, getNumberInvitation);
+router.get('/count', auth, getInvitationNumber);
 
 export default router;
