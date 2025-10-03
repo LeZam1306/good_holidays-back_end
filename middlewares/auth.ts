@@ -3,7 +3,7 @@ import Jwt from 'jsonwebtoken';
 import { ResponseObj } from '../src/lib/responseBuilder.ts';
 import type { AuthRequest } from '../src/types/authRequest.interface.ts';
 
-type DecodedToken = { userId: string };
+type DecodedToken = { userId: string; exp: number };
 
 const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
@@ -17,6 +17,7 @@ const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
     const decodedToken = Jwt.verify(token, 'SECRET') as DecodedToken;
     req.auth = {
       userId: decodedToken.userId,
+      expireAt: decodedToken.exp,
     };
     next();
   } catch {
