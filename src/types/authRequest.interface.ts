@@ -1,5 +1,5 @@
 import type { Request } from 'express';
 
 export interface AuthRequest extends Request {
-  auth?: { userId: string; expireAt: number };
+  auth?: { userId: string; expireAt: Date; token: string };
 }

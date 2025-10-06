@@ -1,6 +1,6 @@
 import type { NextFunction, Response } from 'express';
 import type { AuthRequest } from 'src/types/authRequest.interface.ts';
-import BlacklistSession from '../../models/blacklistSession.ts';
+import BlackListSession from '../../models/blacklistSession.ts';
 import { ResponseObj } from '../../src/lib/responseBuilder.ts';
 
 export const logout = async (
@@ -9,8 +9,13 @@ export const logout = async (
   next: NextFunction,
 ) => {
   try {
-    console.log(req.auth?.userId);
-    //const blacklistSession = new BlacklistSession({});
+    const blacklistSession = new BlackListSession({
+      token: req.auth?.token,
+      expireAt: req.auth?.expireAt,
+    });
+
+    await blacklistSession.save();
+    res.status(204).json();
   } catch {
     res.status(500).json(ResponseObj.doResponse(true, '', {}));
   }
