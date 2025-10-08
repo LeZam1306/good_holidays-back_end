@@ -2,7 +2,11 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import type { Application } from 'express';
 import express from 'express';
+import mongoSanitize from 'express-mongo-sanitize';
+import helmet from 'helmet';
 import mongoose from 'mongoose';
+// @
+import xss from 'xss-clean';
 import authRoutes from '../routes/auth.ts';
 import eventRoutes from '../routes/event.ts';
 import invitationRoutes from '../routes/invitation.ts';
@@ -22,6 +26,13 @@ connectDB();
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(xss());
+app.use(mongoSanitize());
+app.use(
+  helmet({
+    strictTransportSecurity: false,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 
